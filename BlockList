@@ -46,4 +46,4 @@ ArXiv (科学论文): @4*://*.arxiv.org/*
 @4*://*.scientificamerican.com/*
 @4*://mp.weixin.qq.com/*
 @4*://wenda.tianya.cn/*
-@://pro.arcgis.com/*
+*://pro.arcgis.com/*
