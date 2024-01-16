@@ -34,7 +34,7 @@ title/.*一键访问国外网站/
 @4*://*.khanacademy.org/*
 @4*://*.udemy.com/*
 @4*://*.medium.com/tag/technology/*
-ArXiv (科学论文): @4*://*.arxiv.org/*
+@4*://*.arxiv.org/*
 @4*://*.nationalgeographic.com/*
 @4*://*.nytimes.com/*
 @4*://*.theguardian.com/*
