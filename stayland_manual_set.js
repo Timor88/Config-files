@@ -2,8 +2,8 @@
 // 用法：改下面 4 个常量，保存到 GitHub，Loon 里点“执行”一次即可。
 
 // ======= 把下面 4 个值改成你自己的 =======
-const MANUAL_TOKEN = "在这里粘贴 Bearer 里的 token（去掉前面的 Bearer 空格）";
-const MANUAL_REFRESH_TOKEN = "在这里粘贴 refreshToken";
+const MANUAL_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NDE3NzkzODQ3Mzc4NjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL2V4cGlyYXRpb24iOiIxMS8yNC8yMDI1IDE0OjIwOjU0IiwiQ2xpZW50TmFtZSI6IldlQ2hhdE1pbmlQcm9ncmFtIiwiV3hPcGVuZElkIjoib0xIRXg1Y2dCaFNobGkzd1JVYTBOV3ZWRHdWNCIsInJvbGUiOiJNZW1iZXIiLCJuYmYiOjE3NjM5NzYwNTQsImV4cCI6MTc2Mzk5NDA1NCwiaWF0IjoxNzYzOTc2MDU0LCJpc3MiOiJ5eHVuaXZlcnNlLXdlaGNhdCIsImF1ZCI6Inl4dW5pdmVyc2Utd2VoY2F0In0.Vtarp8qvBQY95Eos3SeAwh8IfNmMx2OuY-ENfazmPmA";
+const MANUAL_REFRESH_TOKEN = "r5FXYbsQwnksFw4qzzto5wRqf0EovKnS3qmYuCUKVsU=";
 const MANUAL_EXPIRES = 1764046153;          // token 过期时间（秒时间戳）
 const MANUAL_REFRESH_EXPIRES = 1764287353;  // refreshToken 过期时间（秒时间戳）
 // =======================================
