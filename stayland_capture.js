@@ -1,5 +1,4 @@
-// StayLand 刷新接口响应拦截脚本
-// 作用：在你手动登录 / 刷新时自动保存 token + refreshToken + 过期时间
+// StayLand 刷新接口响应拦截脚本（Loon/Surge 风格）
 
 let body = $response.body;
 
@@ -11,8 +10,8 @@ try {
 
     let token = data.token;
     let refreshToken = data.refreshToken;
-    let expires = data.expires; // 秒
-    let refreshExpires = data.refreshTokenExpiresAt; // 秒
+    let expires = data.expires; // token 过期时间（秒时间戳）
+    let refreshExpires = data.refreshTokenExpiresAt; // refreshToken 过期时间（秒时间戳）
 
     if (token) {
       $persistentStore.write(token, "STAYLAND_TOKEN");
@@ -37,5 +36,5 @@ try {
   console.log("[StayLand] 解析 refreshToken 响应失败: " + e);
 }
 
-// 必须把原始 body 继续返回给小程序
-$done(body);
+// Loon/Surge 风格，必须是对象
+$done({ body });
