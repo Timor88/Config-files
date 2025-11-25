@@ -1,6 +1,10 @@
-// StayLand 刷新接口响应拦截脚本（Loon/Surge 风格）
+// StayLand 刷新接口响应拦截脚本（带通知版）
 
 let body = $response.body;
+
+function notify(title, sub, msg) {
+  $notification.post(title, sub, msg);
+}
 
 try {
   let obj = JSON.parse(body);
@@ -10,31 +14,32 @@ try {
 
     let token = data.token;
     let refreshToken = data.refreshToken;
-    let expires = data.expires; // token 过期时间（秒时间戳）
-    let refreshExpires = data.refreshTokenExpiresAt; // refreshToken 过期时间（秒时间戳）
+    let expires = data.expires; 
+    let refreshExpires = data.refreshTokenExpiresAt;
 
-    if (token) {
-      $persistentStore.write(token, "STAYLAND_TOKEN");
-    }
-    if (refreshToken) {
-      $persistentStore.write(refreshToken, "STAYLAND_REFRESH_TOKEN");
-    }
-    if (expires) {
-      $persistentStore.write(String(expires), "STAYLAND_TOKEN_EXPIRES");
-    }
-    if (refreshExpires) {
-      $persistentStore.write(String(refreshExpires), "STAYLAND_REFRESH_EXPIRES");
-    }
+    $persistentStore.write(token, "STAYLAND_TOKEN");
+    $persistentStore.write(refreshToken, "STAYLAND_REFRESH_TOKEN");
+    $persistentStore.write(String(expires), "STAYLAND_TOKEN_EXPIRES");
+    $persistentStore.write(String(refreshExpires), "STAYLAND_REFRESH_EXPIRES");
 
-    console.log("[StayLand] 捕获 refreshToken 响应成功");
-    console.log("[StayLand] token expires: " + expires);
-    console.log("[StayLand] refreshToken expires: " + refreshExpires);
+    let msg = 
+      "token:\n" + token +
+      "\n\nrefreshToken:\n" + refreshToken +
+      "\n\nexpires: " + expires +
+      "\nrefreshExpires: " + refreshExpires;
+
+    console.log("[StayLand] 捕获 token 成功");
+    notify("StayLand 捕获成功", "已保存 token", msg);
+
   } else {
-    console.log("[StayLand] 响应中没有 data.token，可能接口返回异常");
+    console.log("[StayLand] 响应中没有 token");
+    notify("StayLand 捕获失败", "", "未找到 token 字段（可能接口异常）");
   }
-} catch (e) {
-  console.log("[StayLand] 解析 refreshToken 响应失败: " + e);
+
+} catch(e) {
+  console.log("[StayLand] 捕获 token 解析失败: " + e);
+  notify("StayLand 捕获失败", "", "JS 解析失败：" + e);
 }
 
-// Loon/Surge 风格，必须是对象
+// Loon 正确写法
 $done({ body });
