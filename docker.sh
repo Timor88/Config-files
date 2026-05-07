@@ -9,7 +9,7 @@ $B——————————————————————————
 
 $Y- 正在检查环境$O
 "
-DIR="${DIR:-/home/timor/docker/yunzai"
+DIR="${DIR:-/home/timor/docker/yunzai}"
 CMD="${CMD:-yz}"
 CMDPATH="${CMDPATH:-/usr/local/bin}"
 DKNAME="${DKNAME:-Yunzai}"
