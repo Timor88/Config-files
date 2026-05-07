@@ -10,7 +10,7 @@ $B——————————————————————————
 $Y- 正在检查环境$O
 "
 DIR="${DIR:-/home/timor/docker/yunzai"
-CMD="${CMD:-tsyz}"
+CMD="${CMD:-yz}"
 CMDPATH="${CMDPATH:-/usr/local/bin}"
 DKNAME="${DKNAME:-Yunzai}"
 DKURL="${DKURL:-docker.m.daocloud.io}"
