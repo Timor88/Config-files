@@ -6,3 +6,6 @@
   使用SubStore订阅管理
 ## 3. [uBlackList规则](BlockList)
 ## 4. [IPTV规则](test_channels.m3u)
+## 5.docker.sh yunzai dockercompose文件
+## 6.stayland小程序签到脚本（loon）已失效
+## 7.test_channels m3u订阅（可用性未知）
