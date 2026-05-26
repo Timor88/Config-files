@@ -1,0 +1,243 @@
+# Profile Enhancement Merge Template for Clash Verge
+
+profile:
+  store-selected: true
+proxy-groups:
+  - name: 选择代理
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
+    type: select
+    include-all: true
+
+  - name: AI服务
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png
+    type: select
+    proxies: 
+    include-all: true
+  - name: Final
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png
+    type: select
+    proxies:
+      - 选择代理
+      - DIRECT
+  - name: 自动选择
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    type: url-test
+    url: https://cp.cloudflare.com/generate_204
+    proxies: &a2
+    interval: 60
+    tolerance: 20
+  - name: 故障转移
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png
+    type: fallback
+    url: https://cp.cloudflare.com/generate_204
+    proxies: *a2
+    interval: 60
+    tolerance: 20
+  - name: 广告拦截
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AdBlack.png
+    type: select
+    proxies:
+      - REJECT
+      - REJECT-DROP
+      - DIRECT
+
+  - name: GLOBAL
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png
+    include-all: true
+    type: select
+    proxies:
+      - 选择代理
+rule-providers:
+  ADBlock:
+    type: http
+    behavior: domain
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockmihomolite.yaml
+    path: ./ruleset/ADBlock.yaml
+  SogouInput:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/sogouinput.txt
+    path: ./ruleset/SogouInput.txt
+  StaticResources:
+    type: http
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/domainset/cdn.txt
+    path: ./ruleset/StaticResources.txt
+  CDNResources:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/cdn.txt
+    path: ./ruleset/CDNResources.txt
+  TikTok:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/TikTok.list
+    path: ./ruleset/TikTok.list
+  EHentai:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/EHentai.list
+    path: ./ruleset/EHentai.list
+  SteamFix:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/SteamFix.list
+    path: ./ruleset/SteamFix.list
+  GoogleFCM:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/FirebaseCloudMessaging.list
+    path: ./ruleset/FirebaseCloudMessaging.list
+  AdditionalFilter:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/AdditionalFilter.list
+    path: ./ruleset/AdditionalFilter.list
+  AdditionalCDNResources:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/AdditionalCDNResources.list
+    path: ./ruleset/AdditionalCDNResources.list
+  Crypto:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/Crypto.list
+    path: ./ruleset/Crypto.list
+  Weibo:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/Weibo.list
+    path: ./ruleset/Weibo.list
+  GFWList:
+    type: http
+    behavior: domain
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt
+    path: ./ruleset/GFWList.yaml
+rules:
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT
+  - DST-PORT,22,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - RULE-SET,ADBlock,广告拦截
+  - RULE-SET,AdditionalFilter,广告拦截
+  - RULE-SET,SogouInput,DIRECT
+  - DOMAIN-SUFFIX,truthsocial.com,DIRECT
+  - RULE-SET,StaticResources,DIRECT
+  - RULE-SET,CDNResources,DIRECT
+  - RULE-SET,AdditionalCDNResources,DIRECT
+  - GEOSITE,category-ai-!cn,AI服务
+  - GEOSITE,bilibili,DIRECT
+  - GEOSITE,youtube,选择代理
+  - GEOSITE,telegram,选择代理
+  - GEOIP,telegram,选择代理,no-resolve
+  - GEOSITE,xbox,选择代理
+  - GEOSITE,github,选择代理
+  - GEOSITE,netflix,选择代理
+  - GEOSITE,twitch,选择代理
+  - GEOIP,netflix,选择代理,no-resolve
+  - GEOSITE,spotify,选择代理
+  - GEOSITE,bahamut,选择代理
+  - GEOSITE,pikpak,选择代理
+  - GEOSITE,twitter,选择代理
+  - RULE-SET,Weibo,DIRECT
+  - RULE-SET,EHentai,选择代理
+  - RULE-SET,TikTok,选择代理
+  - RULE-SET,SteamFix,DIRECT
+  - RULE-SET,GoogleFCM,DIRECT
+  - GEOSITE,google-play@cn,DIRECT
+  - GEOSITE,microsoft@cn,DIRECT
+  - GEOSITE,apple,选择代理
+  - GEOSITE,microsoft,选择代理
+  - GEOSITE,google,选择代理
+  - RULE-SET,Crypto,选择代理
+  - RULE-SET,GFWList,选择代理
+  - GEOIP,cn,DIRECT
+  - MATCH,Final
+sniffer:
+  sniff:
+    TLS:
+      ports:
+        - 443
+        - 8443
+    HTTP:
+      ports:
+        - 80
+        - 8080
+        - 8880
+    QUIC:
+      ports:
+        - 443
+        - 8443
+  override-destination: false
+  enable: true
+  force-dns-mapping: true
+  skip-domain:
+    - Mijia Cloud
+    - dlg.io.mi.com
+    - +.push.apple.com
+dns:
+  enable: true
+  ipv6: false
+  prefer-h3: true
+  enhanced-mode: redir-host
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  nameserver:
+    - system
+    - 223.5.5.5
+    - 119.29.29.29
+    - 180.184.1.1
+  fallback:
+    - quic://dns0.eu
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.sb/dns-query
+    - tcp://208.67.222.222
+    - tcp://8.26.56.2
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - tls://dot.pub
+tun:
+  enable: false
+  stack: gvisor
+  device: mihomo
+  route-exclude-address:
+    - 100.64.0.0/10
+    - fd7a:115c:a1e0::/48
+    - 192.168.0.0/16
+    - fd00::/8
+  dns-hijack:
+    - any:53
+  mtu: 1500
+geodata-mode: true
+geox-url:
+  geoip: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+  geosite: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+  mmdb: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb
+  asn: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb
+
