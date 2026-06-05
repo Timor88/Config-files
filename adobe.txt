@@ -1,0 +1,3 @@
+payload:
+  - '+.adobe.com'
+  - '+.adobe.io'
