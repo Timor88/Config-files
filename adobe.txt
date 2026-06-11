@@ -1,6 +1,7 @@
 payload:
   - '+.adobe.com'
   - '+.adobe.io'
+  - '+.adobestats.io'
   - '+.download.parallels.com'
   - '+.update.parallels.com'
   - '+.desktop.parallels.com'
