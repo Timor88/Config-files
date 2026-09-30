@@ -21,3 +21,5 @@ payload:
   - '+.pax-manager.myparallels.com'
   - '+.myparallels.com'
   - '+.my.parallels.com'
+  - '+.adobelogin.com'
+  - '+.adobeccstatic.com'
