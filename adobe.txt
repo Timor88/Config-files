@@ -16,7 +16,7 @@ payload:
   - '+.parallels.nl'
   - '+.parallels.pt'
   - '+.parallels.ru'
-  - '+.parallelskorea.com
+  - '+.parallelskorea.com'
   - '+.reportus.parallels.com'
   - '+.pax-manager.myparallels.com'
   - '+.myparallels.com'

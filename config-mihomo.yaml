@@ -1,93 +1,87 @@
-mixed-port: 7897
-
-dns:
-  enable: true
-  listen: ':53'
-  enhanced-mode: 'fake-ip'
-  fake-ip-range: '198.18.0.1/16'
-  fake-ip-filter-mode: 'blacklist'
-  prefer-h3: false
-  respect-rules: false
-  use-hosts: false
-  use-system-hosts: false
-  ipv6: true
-  fake-ip-filter:
-    - '*.lan'
-    - '*.local'
-    - '*.arpa'
-    - 'time.*.com'
-    - 'ntp.*.com'
-    - 'time.*.com'
-    - '+.market.xiaomi.com'
-    - 'localhost.ptlogin2.qq.com'
-    - '*.msftncsi.com'
-    - 'www.msftconnecttest.com'
-  default-nameserver:
-    - 'system'
-    - '223.6.6.6'
-    - '8.8.8.8'
-    - '2400:3200::1'
-    - '2001:4860:4860::8888'
-  nameserver:
-    - '8.8.8.8'
-    - 'https://doh.pub/dns-query'
-    - 'https://dns.alidns.com/dns-query'
-  direct-nameserver-follow-policy: false
-  fallback-filter:
-    geoip: true
-    geoip-code: 'CN'
-    ipcidr:
-      - '240.0.0.0/4'
-      - '0.0.0.0/32'
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
-  fallback: []
-  proxy-server-nameserver:
-    - 'https://doh.pub/dns-query'
-    - 'https://dns.alidns.com/dns-query'
-    - 'tls://223.5.5.5'
-  direct-nameserver: []
-
-
-allow-lan: true
-bind-address: "*"
-mode: rule
-log-level: info
-
+# Clash Verge / Mihomo 全局扩展覆写配置
+# 与订阅合并使用，节点由订阅提供；策略组和 rules 列表整体替换。
+# 地区依据节点名称筛选，不代表服务器真实位置。
 profile:
   store-selected: true
-  store-fake-ip: true
-
-proxy-providers:
-  airport:
-    type: http
-    url: ""
-    path: ./proxy_provider/airport.yaml
-    interval: 3600
-
 proxy-groups:
   - name: 选择代理
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
-    type: url-test
-    interval: 300           # 每 5 分钟自动测试一次延迟
-    tolerance: 50           # 延迟差在 50ms 以内不频繁切换
+    type: select
     include-all: true
+    proxies:
+      - 新加坡自动
+      - 美国自动
+      - 香港自动
+
+  # 地区组：每 5 分钟测速，延迟差超过 50ms 才考虑切换。
+  # 没有匹配节点时拒绝连接，避免意外直连。
+  - name: 新加坡自动
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png
+    type: url-test
+    include-all: true
+    filter: '(?i)(新加坡|狮城|獅城|singapore|🇸🇬|(^|[^a-z])sg([^a-z]|$))'
+    empty-fallback: REJECT
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  - name: 美国自动
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png
+    type: url-test
+    include-all: true
+    filter: '(?i)(美国|美國|united[ _-]?states|america|🇺🇸|🇺🇲|(^|[^a-z])us([^a-z]|$)|洛杉矶|洛杉磯|圣何塞|聖何塞|西雅图|西雅圖|硅谷|矽谷)'
+    empty-fallback: REJECT
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  - name: 香港自动
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png
+    type: url-test
+    include-all: true
+    filter: '(?i)(香港|hong[ _-]?kong|🇭🇰|(^|[^a-z])hk([^a-z]|$))'
+    empty-fallback: REJECT
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  # AI 手动组：仅显示美国、新加坡节点及对应自动组。
+  - name: AI服务
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png
+    type: select
+    include-all: true
+    filter: '(?i)(新加坡|狮城|獅城|singapore|🇸🇬|(^|[^a-z])sg([^a-z]|$)|美国|美國|united[ _-]?states|america|🇺🇸|🇺🇲|(^|[^a-z])us([^a-z]|$)|洛杉矶|洛杉磯|圣何塞|聖何塞|西雅图|西雅圖|硅谷|矽谷)'
+    empty-fallback: REJECT
+    proxies:
+      - 美国自动
+      - 新加坡自动
+
 rule-providers:
+  AIProxy:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/global.yaml
+    path: ./ruleset/AIProxy-global.yaml
+    interval: 86400
+
   reject:
     type: http
     behavior: domain
     url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
     path: ./ruleset/reject.yaml
     interval: 86400
+
   adobe:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/Timor88/Config-files/refs/heads/main/adobe.txt"
     path: ./ruleset/adobe.yaml
     interval: 86400
-  
+
   icloud:
     type: http
     behavior: domain
@@ -180,6 +174,8 @@ rules:
   - RULE-SET,reject,REJECT
   - RULE-SET,icloud,DIRECT
   - RULE-SET,apple,DIRECT
+  # VPSDance AI 规则（包含域名、进程及 IP/ASN），先于通用分流。
+  - RULE-SET,AIProxy,AI服务
   - RULE-SET,google,选择代理
   - RULE-SET,proxy,选择代理
   - RULE-SET,direct,DIRECT
@@ -188,6 +184,7 @@ rules:
   - RULE-SET,telegramcidr,选择代理
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
+  # 保留前面的国内直连优先级，其余匹配域名交由代理处理。
+  - RULE-SET,gfw,选择代理
+  - RULE-SET,tld-not-cn,选择代理
   - MATCH,选择代理
-
-# 将完整规则集追加到此文件即可
