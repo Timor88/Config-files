@@ -66,7 +66,8 @@ function main(config) {
       "empty-fallback": "REJECT",
       "proxies": [
         "美国自动",
-        "新加坡自动"
+        "新加坡自动",
+        "REJECT"
       ]
     }
   ],
